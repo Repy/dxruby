@@ -1,4 +1,5 @@
 #define WINVER 0x0500                                  /* バージョン定義 Windows2000以上 */
+#undef _WIN32_WINNT
 #define _WIN32_WINNT WINVER
 
 #include "ruby.h"
@@ -39,7 +40,7 @@ const rb_data_type_t Matrix_data_type = {
     "Matrix",
     {
     0,
-    Matrix_release,
+    (void (*)(void *)) Matrix_release,
     0,
     },
     NULL, NULL
@@ -513,7 +514,7 @@ const rb_data_type_t Vector_data_type = {
     "Vector",
     {
     0,
-    Vector_release,
+    (void (*)(void *)) Vector_release,
     0,
     },
     NULL, NULL

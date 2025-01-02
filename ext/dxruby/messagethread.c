@@ -1,4 +1,5 @@
 #define WINVER 0x0500                                  /* バージョン定義 Windows2000以上 */
+#undef _WIN32_WINNT
 #define _WIN32_WINNT WINVER
 
 #include "ruby.h"
@@ -11,6 +12,7 @@
 
 #include "dxruby.h"
 #include "messagethread.h"
+#include "input.h"
 #include "font.h"
 #include "imm.h"
 

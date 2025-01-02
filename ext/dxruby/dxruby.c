@@ -1,4 +1,5 @@
 #define WINVER 0x0500                                  /* バージョン定義 Windows2000以上 */
+#undef _WIN32_WINNT
 #define _WIN32_WINNT WINVER
 
 #include "ruby.h"
@@ -1889,8 +1890,8 @@ static void ShaderCore_mark( struct DXRubyShaderCore* core )
 const rb_data_type_t ShaderCore_data_type = {
     "ShaderCore",
     {
-    ShaderCore_mark,
-    ShaderCore_release,
+    (void (*)(void *)) ShaderCore_mark,
+    (void (*)(void *)) ShaderCore_release,
     0,
     },
     NULL, NULL
@@ -2023,8 +2024,8 @@ static void Shader_mark( struct DXRubyShader *shader )
 const rb_data_type_t Shader_data_type = {
     "Shader",
     {
-    Shader_mark,
-    Shader_release,
+    (void (*)(void *)) Shader_mark,
+    (void (*)(void *)) Shader_release,
     0,
     },
     NULL, NULL
@@ -2253,8 +2254,8 @@ static void RenderTarget_mark( struct DXRubyRenderTarget *rt )
 const rb_data_type_t RenderTarget_data_type = {
     "RenderTarget",
     {
-    RenderTarget_mark,
-    RenderTarget_release,
+    (void (*)(void *)) RenderTarget_mark,
+    (void (*)(void *)) RenderTarget_release,
     0,
     },
     NULL, NULL
@@ -2867,7 +2868,7 @@ static VALUE RenderTarget_drawPixel( int argc, VALUE *argv, VALUE obj )
     picture = (struct DXRubyPicture_drawLine *)RenderTarget_AllocPictureList( rt, sizeof( struct DXRubyPicture_drawLine ) );
 
     /* DXRubyPictureオブジェクト設定 */
-    picture->func = RenderTarget_drawLine_func;
+    picture->func = (void (*)(void *)) RenderTarget_drawLine_func;
     picture->x1 = NUM2INT( argv[0] ) - rt->ox;
     picture->y1 = NUM2INT( argv[1] ) - rt->oy;
     picture->x2 = NUM2INT( argv[0] ) - rt->ox;
@@ -2907,7 +2908,7 @@ static VALUE RenderTarget_drawLine( int argc, VALUE *argv, VALUE obj )
     picture = (struct DXRubyPicture_drawLine *)RenderTarget_AllocPictureList( rt, sizeof( struct DXRubyPicture_drawLine ) );
 
     /* DXRubyPictureオブジェクト設定 */
-    picture->func = RenderTarget_drawLine_func;
+    picture->func = (void (*)(void *)) RenderTarget_drawLine_func;
     picture->x1 = NUM2INT( argv[0] ) - rt->ox;
     picture->y1 = NUM2INT( argv[1] ) - rt->oy;
     picture->x2 = NUM2INT( argv[2] ) - rt->ox;
@@ -2954,7 +2955,7 @@ static VALUE RenderTarget_drawBox( int argc, VALUE *argv, VALUE obj )
         picture = (struct DXRubyPicture_drawLine *)RenderTarget_AllocPictureList( rt, sizeof( struct DXRubyPicture_drawLine ));
 
         /* DXRubyPictureオブジェクト設定 */
-        picture->func = RenderTarget_drawLine_func;
+        picture->func = (void (*)(void *)) RenderTarget_drawLine_func;
         picture->x1 = x1 - rt->ox;
         picture->y1 = y1 - rt->oy;
         picture->x2 = x2 - rt->ox;
@@ -2988,7 +2989,7 @@ static VALUE RenderTarget_drawBox( int argc, VALUE *argv, VALUE obj )
 
         /* DXRubyPictureオブジェクト設定 */
         picture = (struct DXRubyPicture_drawLine *)RenderTarget_AllocPictureList( rt, sizeof( struct DXRubyPicture_drawLine ) );
-        picture->func = RenderTarget_drawLine_func;
+        picture->func = (void (*)(void *)) RenderTarget_drawLine_func;
         picture->x1 = x1 - rt->ox + 1;
         picture->y1 = y1 - rt->oy;
         picture->x2 = x2 - rt->ox;
@@ -3007,7 +3008,7 @@ static VALUE RenderTarget_drawBox( int argc, VALUE *argv, VALUE obj )
 
         /* DXRubyPictureオブジェクト設定 */
         picture = (struct DXRubyPicture_drawLine *)RenderTarget_AllocPictureList( rt, sizeof( struct DXRubyPicture_drawLine ) );
-        picture->func = RenderTarget_drawLine_func;
+        picture->func = (void (*)(void *)) RenderTarget_drawLine_func;
         picture->x1 = x1 - rt->ox;
         picture->y1 = y2 - rt->oy;
         picture->x2 = x2 - rt->ox - 1;
@@ -3026,7 +3027,7 @@ static VALUE RenderTarget_drawBox( int argc, VALUE *argv, VALUE obj )
 
         /* DXRubyPictureオブジェクト設定 */
         picture = (struct DXRubyPicture_drawLine *)RenderTarget_AllocPictureList( rt, sizeof( struct DXRubyPicture_drawLine ) );
-        picture->func = RenderTarget_drawLine_func;
+        picture->func = (void (*)(void *)) RenderTarget_drawLine_func;
         picture->x1 = x1 - rt->ox;
         picture->y1 = y1 - rt->oy;
         picture->x2 = x1 - rt->ox;
@@ -3045,7 +3046,7 @@ static VALUE RenderTarget_drawBox( int argc, VALUE *argv, VALUE obj )
 
         /* DXRubyPictureオブジェクト設定 */
         picture = (struct DXRubyPicture_drawLine *)RenderTarget_AllocPictureList( rt, sizeof( struct DXRubyPicture_drawLine ) );
-        picture->func = RenderTarget_drawLine_func;
+        picture->func = (void (*)(void *)) RenderTarget_drawLine_func;
         picture->x1 = x2 - rt->ox;
         picture->y1 = y1 - rt->oy + 1;
         picture->x2 = x2 - rt->ox;
@@ -3165,7 +3166,7 @@ static VALUE RenderTarget_drawBoxFill( int argc, VALUE *argv, VALUE obj )
     picture = (struct DXRubyPicture_drawLine *)RenderTarget_AllocPictureList( rt, sizeof( struct DXRubyPicture_drawLine ) );
 
     /* DXRubyPictureオブジェクト設定 */
-    picture->func = RenderTarget_drawBoxFill_func;
+    picture->func = (void (*)(void *)) RenderTarget_drawBoxFill_func;
     picture->x1 = NUM2INT( argv[0] ) - rt->ox;
     picture->y1 = NUM2INT( argv[1] ) - rt->oy;
     picture->x2 = NUM2INT( argv[2] ) - rt->ox;
@@ -3279,7 +3280,7 @@ static VALUE RenderTarget_drawCircle( int argc, VALUE *argv, VALUE obj )
     picture = (struct DXRubyPicture_drawCircle *)RenderTarget_AllocPictureList( rt, sizeof( struct DXRubyPicture_drawCircle ) );
 
     /* DXRubyPictureオブジェクト設定 */
-    picture->func = RenderTarget_drawCircle_func;
+    picture->func = (void (*)(void *)) RenderTarget_drawCircle_func;
     picture->x = NUM2INT( argv[0] ) - rt->ox;
     picture->y = NUM2INT( argv[1] ) - rt->oy;
     picture->r = NUM2INT( argv[2] );
@@ -3384,7 +3385,7 @@ static VALUE RenderTarget_drawCircleFill( int argc, VALUE *argv, VALUE obj )
     picture = (struct DXRubyPicture_drawCircle *)RenderTarget_AllocPictureList( rt, sizeof( struct DXRubyPicture_drawCircle ) );
 
     /* DXRubyPictureオブジェクト設定 */
-    picture->func = RenderTarget_drawCircleFill_func;
+    picture->func = (void (*)(void *)) RenderTarget_drawCircleFill_func;
     picture->x = NUM2INT( argv[0] ) - rt->ox;
     picture->y = NUM2INT( argv[1] ) - rt->oy;
     picture->r = NUM2INT( argv[2] );
@@ -3484,7 +3485,7 @@ static VALUE RenderTarget_draw( int argc, VALUE *argv, VALUE obj )
     picture = (struct DXRubyPicture_draw *)RenderTarget_AllocPictureList( rt, sizeof( struct DXRubyPicture_draw ) );
 
     /* DXRubyPictureオブジェクト設定 */
-    picture->func = RenderTarget_draw_func;
+    picture->func = (void (*)(void *)) RenderTarget_draw_func;
     picture->x = NUM2INT( argv[0] ) - rt->ox;
     picture->y = NUM2INT( argv[1] ) - rt->oy;
     picture->value = argv[2];
@@ -3529,7 +3530,7 @@ static VALUE RenderTarget_drawAlpha( int argc, VALUE *argv, VALUE obj )
     picture = (struct DXRubyPicture_draw *)RenderTarget_AllocPictureList( rt, sizeof( struct DXRubyPicture_draw ) );
 
     /* DXRubyPictureオブジェクト設定 */
-    picture->func = RenderTarget_draw_func;
+    picture->func = (void (*)(void *)) RenderTarget_draw_func;
     picture->x = NUM2INT( argv[0] ) - rt->ox;
     picture->y = NUM2INT( argv[1] ) - rt->oy;
     picture->value = argv[2];
@@ -3575,7 +3576,7 @@ static VALUE RenderTarget_drawAdd( int argc, VALUE *argv, VALUE obj )
     picture = (struct DXRubyPicture_draw *)RenderTarget_AllocPictureList( rt, sizeof( struct DXRubyPicture_draw ) );
 
     /* DXRubyPictureオブジェクト設定 */
-    picture->func = RenderTarget_draw_func;
+    picture->func = (void (*)(void *)) RenderTarget_draw_func;
     picture->x = NUM2INT( argv[0] ) - rt->ox;
     picture->y = NUM2INT( argv[1] ) - rt->oy;
     picture->value = argv[2];
@@ -3621,7 +3622,7 @@ static VALUE RenderTarget_drawSub( int argc, VALUE *argv, VALUE obj )
     picture = (struct DXRubyPicture_draw *)RenderTarget_AllocPictureList( rt, sizeof( struct DXRubyPicture_draw ) );
 
     /* DXRubyPictureオブジェクト設定 */
-    picture->func = RenderTarget_draw_func;
+    picture->func = (void (*)(void *)) RenderTarget_draw_func;
     picture->x = NUM2INT( argv[0] ) - rt->ox;
     picture->y = NUM2INT( argv[1] ) - rt->oy;
     picture->value = argv[2];
@@ -3858,7 +3859,7 @@ static VALUE RenderTarget_drawShader( int argc, VALUE *argv, VALUE obj )
 //    rb_hash_foreach( RARRAY_PTR( picture->value )[2], Window_drawShader_func_foreach_lock, RARRAY_PTR( picture->value )[1]);
 
     /* DXRubyPictureオブジェクト設定 */
-    picture->func = RenderTarget_drawShader_func;
+    picture->func = (void (*)(void *)) RenderTarget_drawShader_func;
     picture->x = NUM2INT( argv[0] ) - rt->ox;
     picture->y = NUM2INT( argv[1] ) - rt->oy;
     picture->alpha = 0xff;
@@ -4008,7 +4009,7 @@ static VALUE RenderTarget_drawScale( int argc, VALUE *argv, VALUE obj )
     picture = (struct DXRubyPicture_drawEx *)RenderTarget_AllocPictureList( rt, sizeof( struct DXRubyPicture_drawEx ) );
 
     /* DXRubyPictureオブジェクト設定 */
-    picture->func = RenderTarget_drawEx_func;
+    picture->func = (void (*)(void *)) RenderTarget_drawEx_func;
     picture->x = NUM2INT( argv[0] ) - rt->ox;
     picture->y = NUM2INT( argv[1] ) - rt->oy;
     picture->value = argv[2];
@@ -4059,7 +4060,7 @@ static VALUE RenderTarget_drawRot( int argc, VALUE *argv, VALUE obj )
     picture = (struct DXRubyPicture_drawEx *)RenderTarget_AllocPictureList( rt, sizeof( struct DXRubyPicture_drawEx ) );
 
     /* DXRubyPictureオブジェクト設定 */
-    picture->func = RenderTarget_drawEx_func;
+    picture->func = (void (*)(void *)) RenderTarget_drawEx_func;
     picture->x = NUM2INT( argv[0] ) - rt->ox;
     picture->y = NUM2INT( argv[1] ) - rt->oy;
     picture->value = argv[2];
@@ -4143,7 +4144,7 @@ static VALUE RenderTarget_drawEx( int argc, VALUE *argv, VALUE obj )
         picture = (struct DXRubyPicture_drawEx *)RenderTarget_AllocPictureList( rt, sizeof( struct DXRubyPicture_drawEx ) );
 
         /* DXRubyPictureオブジェクト設定 */
-        picture->func = RenderTarget_drawEx_func;
+        picture->func = (void (*)(void *)) RenderTarget_drawEx_func;
         picture->angle   = (vangle   == Qnil ? 0.0f             : NUM2FLOAT( vangle   ));
         picture->scalex  = (vscalex  == Qnil ? 1.0f             : NUM2FLOAT( vscalex  ));
         picture->scaley  = (vscaley  == Qnil ? 1.0f             : NUM2FLOAT( vscaley  ));
@@ -4297,7 +4298,7 @@ static VALUE RenderTarget_drawFont( int argc, VALUE *argv, VALUE obj )
     }
 
     /* DXRubyPictureオブジェクト設定 */
-    picture->func = RenderTarget_drawFont_func;
+    picture->func = (void (*)(void *)) RenderTarget_drawFont_func;
     picture->x = NUM2INT( argv[0] ) - rt->ox;
     picture->y = NUM2INT( argv[1] ) - rt->oy;
     picture->angle   = (vangle   == Qnil ? 0.0f : NUM2FLOAT( vangle ));
@@ -4605,7 +4606,7 @@ static VALUE RenderTarget_drawMorph( int argc, VALUE *argv, VALUE obj )
     picture = (struct DXRubyPicture_drawMorph *)RenderTarget_AllocPictureList( rt, sizeof( struct DXRubyPicture_drawMorph ) );
 
     /* DXRubyPictureオブジェクト設定 */
-    picture->func = RenderTarget_drawMorph_func;
+    picture->func = (void (*)(void *)) RenderTarget_drawMorph_func;
     picture->x1 = NUM2FLOAT( argv[0] ) - rt->ox;
     picture->y1 = NUM2FLOAT( argv[1] ) - rt->oy;
     picture->x2 = NUM2FLOAT( argv[2] ) - rt->ox;
@@ -4832,7 +4833,7 @@ static VALUE RenderTarget_drawTile( int argc, VALUE *argv, VALUE obj )
     picture = (struct DXRubyPicture_drawTile *)RenderTarget_AllocPictureList( rt, sizeof( struct DXRubyPicture_drawTile ) );
 
     /* DXRubyPictureオブジェクト設定 */
-    picture->func = RenderTarget_drawTile_func;
+    picture->func = (void (*)(void *)) RenderTarget_drawTile_func;
     picture->basex = vbasex == Qnil ? 0 : (NUM2INT( vbasex ) - rt->ox);
     picture->basey = vbasey == Qnil ? 0 : (NUM2INT( vbasey ) - rt->oy);
     picture->sizex = vsizex == Qnil ? (rt->width  + DXRUBY_GET_STRUCT( Image, RARRAY_AREF(vmapdata_f, 0) )->width  - 1) / DXRUBY_GET_STRUCT( Image, RARRAY_AREF(vmapdata_f, 0) )->width  : NUM2INT( vsizex );
@@ -5539,7 +5540,7 @@ void Init_dxruby()
     symbol_call           = ID2SYM(rb_intern("call"));
 
     /* 終了時に実行する関数 */
-    rb_set_end_proc( Window_shutdown, Qnil );
+    rb_set_end_proc( (void (*)(VALUE)) Window_shutdown, Qnil );
 
     /* ロストリスト */
     g_RenderTargetList.pointer = malloc( sizeof(void*) * 16 );

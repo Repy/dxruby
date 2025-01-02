@@ -1,4 +1,5 @@
 #define WINVER 0x0500                                  /* バージョン定義 Windows2000以上 */
+#undef _WIN32_WINNT
 #define _WIN32_WINNT WINVER
 
 #include "ruby.h"
@@ -69,7 +70,7 @@ const rb_data_type_t Image_data_type = {
     "Image",
     {
     0,
-    Image_release,
+    (void (*)(void *)) Image_release,
     0,
     },
     NULL, NULL

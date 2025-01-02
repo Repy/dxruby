@@ -1,4 +1,5 @@
 #define WINVER 0x0500                                  /* バージョン定義 Windows2000以上 */
+#undef _WIN32_WINNT
 #define _WIN32_WINNT WINVER
 
 #include "ruby.h"
@@ -67,8 +68,8 @@ static void Font_mark( struct DXRubyFont *font )
 const rb_data_type_t Font_data_type = {
     "Font",
     {
-    Font_mark,
-    Font_release,
+    (void (*)(void *)) Font_mark,
+    (void (*)(void *)) Font_release,
     0,
     },
     NULL, NULL

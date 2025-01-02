@@ -1,4 +1,5 @@
 #define WINVER 0x0500                                  /* バージョン定義 Windows2000以上 */
+#undef _WIN32_WINNT
 #define _WIN32_WINNT WINVER
 
 #include "ruby.h"
@@ -86,8 +87,8 @@ static void Sprite_mark( struct DXRubySprite *sprite )
 const rb_data_type_t Sprite_data_type = {
     "Sprite",
     {
-    Sprite_mark,
-    Sprite_release,
+    (void (*)(void *)) Sprite_mark,
+    (void (*)(void *)) Sprite_release,
     0,
     },
     NULL, NULL
@@ -193,7 +194,7 @@ void Sprite_internal_draw( VALUE self, VALUE vrt )
 
         if( sprite->vshader == Qnil )
         {/* シェーダなし */
-            picture->func = RenderTarget_draw_func;
+            picture->func = (void (*)(void *)) RenderTarget_draw_func;
             picture->value = sprite->vimage;
         }
         else
@@ -212,7 +213,7 @@ void Sprite_internal_draw( VALUE self, VALUE vrt )
             /* Shader内のImageオブジェクトをロックする */
 //            rb_hash_foreach( RARRAY_PTR( picture->value )[2], Window_drawShader_func_foreach_lock, RARRAY_PTR( picture->value )[1]);
 
-            picture->func = RenderTarget_drawShader_func;
+            picture->func = (void (*)(void *)) RenderTarget_drawShader_func;
         }
 
         picture->alpha = NUM2INT( sprite->valpha );
@@ -238,7 +239,7 @@ void Sprite_internal_draw( VALUE self, VALUE vrt )
         picture = (struct DXRubyPicture_drawEx *)RenderTarget_AllocPictureList( rt, sizeof( struct DXRubyPicture_drawEx ) );
 
         /* DXRubyPictureオブジェクト設定 */
-        picture->func = RenderTarget_drawEx_func;
+        picture->func = (void (*)(void *)) RenderTarget_drawEx_func;
         picture->x = (int)(NUM2FLOAT( sprite->vx ) - (RTEST(sprite->voffset_sync) ? (sprite->vcenter_x == Qnil ? image->width / 2.0f : NUM2FLOAT( sprite->vcenter_x )) : 0));
         picture->y = (int)(NUM2FLOAT( sprite->vy ) - (RTEST(sprite->voffset_sync) ? (sprite->vcenter_y == Qnil ? image->height / 2.0f : NUM2FLOAT( sprite->vcenter_y )) : 0));
         picture->x -= rt->ox;

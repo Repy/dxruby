@@ -8,6 +8,7 @@
 #include <memory.h>
 #include <math.h>
 #include <d3d9types.h>
+#include <dsound.h>
 #include <WINNLS32.H>
 //#include <dshow.h>
 
@@ -54,8 +55,8 @@
 #  define OBJ_WRITE(obj, slot, data) *slot=data;
 #endif
 
-#ifdef RUBY_VERSION_MAJOR
-#  if !(RUBY_VERSION_MAJOR == 1 || RUBY_API_VERSION_MAJOR == 1 || (RUBY_API_VERSION_MAJOR == 2 && RUBY_API_VERSION_MINOR == 0))
+#ifdef RUBY_API_VERSION_MAJOR
+#  if !(RUBY_API_VERSION_MAJOR == 1 || RUBY_API_VERSION_MAJOR == 1 || (RUBY_API_VERSION_MAJOR == 2 && RUBY_API_VERSION_MINOR == 0))
 #    define DXRUBY_USE_TYPEDDATA
 #  endif
 #endif
@@ -122,7 +123,7 @@ struct DXRubyWindowInfo {
 };
 
 /* ピクチャ配列 */
-static struct DXRubyPictureList {
+struct DXRubyPictureList {
     float z;                        /* ピクチャのZ座標 */
     struct DXRubyPicture *picture;    /* ピクチャ構造体へのポインタ */
 };
