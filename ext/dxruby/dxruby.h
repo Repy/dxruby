@@ -55,9 +55,15 @@
 #  define OBJ_WRITE(obj, slot, data) *slot=data;
 #endif
 
+#define DXRUBY_USE_TYPEDDATA
+#ifdef RUBY_VERSION_MAJOR
+#  if RUBY_VERSION_MAJOR == 1
+#    undef DXRUBY_USE_TYPEDDATA
+#  endif
+#endif
 #ifdef RUBY_API_VERSION_MAJOR
-#  if !(RUBY_API_VERSION_MAJOR == 1 || RUBY_API_VERSION_MAJOR == 1 || (RUBY_API_VERSION_MAJOR == 2 && RUBY_API_VERSION_MINOR == 0))
-#    define DXRUBY_USE_TYPEDDATA
+#  if (RUBY_API_VERSION_MAJOR == 1 || (RUBY_API_VERSION_MAJOR == 2 && RUBY_API_VERSION_MINOR == 0))
+#    undef DXRUBY_USE_TYPEDDATA
 #  endif
 #endif
 

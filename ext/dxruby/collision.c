@@ -1,7 +1,6 @@
 #define WINVER 0x0500                                  /* バージョン定義 Windows2000以上 */
-#ifndef _WIN32_WINNT
+#undef _WIN32_WINNT
 #define _WIN32_WINNT WINVER
-#endif
 
 #include "ruby.h"
 #ifndef RUBY_ST_H

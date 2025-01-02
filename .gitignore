@@ -8,6 +8,9 @@
 /test/tmp/
 /test/version_tmp/
 /tmp/
+/ext/dxruby/Makefile
+/ext/dxruby/mkmf*.log
+/ext/dxruby/*.def
 
 ## Specific to RubyMotion:
 .dat*
@@ -33,5 +36,3 @@ build/
 
 # unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
 .rvmrc
-ext/dxruby/Makefile
-ext/dxruby/mkmf*.log
