@@ -189,6 +189,10 @@ static VALUE Sound_allocate( VALUE klass )
  ---------------------------------------------------------------------*/
 static VALUE Sound_load_from_memory( VALUE klass, VALUE vstr, VALUE vtype )
 {
+#if WIN64
+    rb_raise( eDXRubyError, "DirectMusic Performance is not supported on 64-bit Windows." );
+    return 0LL;
+#endif
     HRESULT hr;
     WCHAR wstrFileName[MAX_PATH];
     VALUE obj;
@@ -355,6 +359,10 @@ static VALUE Sound_load_from_memory( VALUE klass, VALUE vstr, VALUE vtype )
  ---------------------------------------------------------------------*/
 static VALUE Sound_initialize( VALUE obj, VALUE vfilename )
 {
+#if WIN64
+    rb_raise( eDXRubyError, "DirectMusic Performance is not supported on 64-bit Windows." );
+    return 0LL;
+#endif
     HRESULT hr;
     WCHAR wstrFileName[MAX_PATH];
     struct DXRubySound *sound;

@@ -454,7 +454,7 @@ static DWORD WINAPI MessageThreadProc( LPVOID lpParameter )
 /*--------------------------------------------------------------------
    （内部関数）ウィンドウプロシージャ
  ---------------------------------------------------------------------*/
-LRESULT CALLBACK MessageThreadWndProc( HWND hWnd, UINT msg, UINT wParam, LONG lParam )
+LRESULT CALLBACK MessageThreadWndProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
     RECT rect;
     VALUE temp;
@@ -586,7 +586,7 @@ LRESULT CALLBACK MessageThreadWndProc( HWND hWnd, UINT msg, UINT wParam, LONG lP
 
     case WM_APP + 4:
         /* カーソルの変更 */
-        SetCursor( LoadCursor( NULL, (LPSTR)lParam ));
+        SetCursor( LoadCursor( NULL, (LPCSTR)lParam ));
         return 0;
 
 #ifdef DXRUBY15

@@ -1195,7 +1195,7 @@ static VALUE Window_getload( VALUE obj )
  ---------------------------------------------------------------------*/
 static VALUE Window_gethWnd( VALUE obj )
 {
-    return INT2NUM( (int)g_hWnd );
+    return INT2NUM( (intptr_t) g_hWnd );
 }
 
 
